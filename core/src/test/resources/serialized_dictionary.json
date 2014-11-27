@@ -1,0 +1,59 @@
+{"dictionary": {
+    "hello|Noun|1": {
+        "word": "hello",
+        "pos": "Noun",
+        "number": 1,
+        "transcription": null,
+        "records": [
+            {
+                "id": "089112b4-288e-4e49-99f2-42472404ce3a",
+                "index": 1,
+                "translation": "привет",
+                "tip": "Some Tip",
+                "desc": "hello is used for greeting",
+                "examples": [
+                    {
+                        "word": "hello again",
+                        "trans": null,
+                        "ph": null
+                    },
+                    {
+                        "word": "hello alex",
+                        "trans": "привет алекс",
+                        "ph": "hello smbd"
+                    }
+                ],
+                "synonyms": [],
+                "tags": ["longman", "basic4000"]
+            },
+            {
+                "id": "0da3edf3-2153-4d7b-93fe-9f58f4d75d6e",
+                "index": 2,
+                "translation": "привет2",
+                "tip": null,
+                "desc": null,
+                "examples": [],
+                "synonyms": [],
+                "tags": []
+            }
+        ]
+    },
+    "world|Noun|1": {
+        "word": "world",
+        "pos": "Noun",
+        "number": 1,
+        "transcription": "world",
+        "records": [
+            {
+                "id": "bea324b9-abcb-4fbf-a653-1015f3a3cf24",
+                "index": 1,
+                "translation": "мир",
+                "tip": null,
+                "desc": null,
+                "examples": [],
+                "synonyms": [],
+                "tags": []
+            }
+        ]
+    }
+}}

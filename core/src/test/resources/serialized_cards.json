@@ -1,0 +1,24 @@
+{"learntCards": [
+        {
+            "recordId": "97dfce47-a474-4a0b-a351-f4f332993068",
+            "status": "LEARNT",
+            "n": 20,
+            "l": 20,
+            "lr": 20
+        }
+    ], "activeCards": [
+        {
+            "recordId": "c9444c55-a2f1-492a-80d7-6d3d72126a8c",
+            "status": "ACTIVE",
+            "n": 20,
+            "l": 0,
+            "lr": 0
+        },
+        {
+            "recordId": "f543c9dd-ed97-4615-99ff-7d992fadd092",
+            "status": "ACTIVE",
+            "n": 20,
+            "l": 0,
+            "lr": 0
+        }
+]}
