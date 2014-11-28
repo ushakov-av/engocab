@@ -35,10 +35,9 @@ public class WordEnterController {
         this.model = model;
     }
 
-    public void addForm(WordForm form) {
+    public void setForm(WordForm form) {
         this.form = form;
     }
-
 
     public void saveWord(Event event) {
 

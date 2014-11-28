@@ -23,7 +23,7 @@ public class WordEnterForm {
 
         // render word form on stage
         form = new WordForm(stage);
-        this.enterController.addForm(form);
+        this.enterController.setForm(form);
         form.saveButton.setOnAction(enterController::saveWord);
         form.cancelButton.setOnAction(event -> stage.close());
     }

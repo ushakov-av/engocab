@@ -39,12 +39,13 @@ public class WordEditForm {
 
         // render word form on stage
         this.form = new WordForm(stage);
+        this.editController.setForm(form);
 
         // Save all form records
         populateForm(modelWordRecord);
 
         // If translation is empty the word record will be removed
-        form.saveButton.setOnAction(editController::saveWord);
+        form.saveButton.setOnAction(this.editController::saveWord);
 
         // todo: show warning to detect erroneous close
         form.cancelButton.setOnAction(actionEvent -> stage.close());
