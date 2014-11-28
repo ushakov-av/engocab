@@ -49,6 +49,22 @@ public class MainStage extends Application {
     private TableView createTable() {
 
         TableView tableView = new TableView();
+        tableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+
+        TableColumn learntCol = createTableColumn("learnt percent", 100, "learntPercent");
+        TableColumn firstNameCol = createTableColumn("en word", 200, "word");
+        TableColumn translationNumber = createTableColumn("№", 5, "translationNumber");
+        TableColumn lastNameCol = createTableColumn("ru word", 400, "translation");
+        TableColumn emailCol = createTableColumn("description", 600, "description");
+        tableView.getColumns().addAll(learntCol, firstNameCol, translationNumber, lastNameCol, emailCol);
+
+        tableView.setItems(model.getData());
+
+        return tableView;
+    }
+
+    @SuppressWarnings("unchecked")
+    private TableColumn createTableColumn(String text, int minWidth, String column) {
 
         Callback<TableColumn, TableCell> stringCellFactory =
                 p -> {
@@ -57,42 +73,12 @@ public class MainStage extends Application {
                     return cell;
                 };
 
-        TableColumn learntCol = new TableColumn();
-        learntCol.setText("learnt percent");
-        learntCol.setMinWidth(100);
-        learntCol.setCellValueFactory(new PropertyValueFactory("learntPercent"));
-        learntCol.setCellFactory(stringCellFactory);
-
-        TableColumn firstNameCol = new TableColumn();
-        firstNameCol.setText("en word");
-        firstNameCol.setMinWidth(200);
-        firstNameCol.setCellValueFactory(new PropertyValueFactory("word"));
-        firstNameCol.setCellFactory(stringCellFactory);
-
-        TableColumn translationNumber = new TableColumn();
-        translationNumber.setText("№");
-        translationNumber.setMinWidth(5);
-        translationNumber.setCellValueFactory(new PropertyValueFactory("translationNumber"));
-        translationNumber.setCellFactory(stringCellFactory);
-
-        TableColumn lastNameCol = new TableColumn();
-        lastNameCol.setText("ru word");
-        lastNameCol.setMinWidth(400);
-        lastNameCol.setCellValueFactory(new PropertyValueFactory("translation"));
-        lastNameCol.setCellFactory(stringCellFactory);
-
-        TableColumn emailCol = new TableColumn();
-        emailCol.setText("description");
-        emailCol.setMinWidth(600);
-        emailCol.setCellValueFactory(new PropertyValueFactory("description"));
-        emailCol.setCellFactory(stringCellFactory);
-
-        tableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
-        tableView.getColumns().addAll(learntCol, firstNameCol, translationNumber, lastNameCol, emailCol);
-
-        tableView.setItems(model.getData());
-
-        return tableView;
+        TableColumn tableColumn = new TableColumn();
+        tableColumn.setText(text);
+        tableColumn.setMinWidth(minWidth);
+        tableColumn.setCellValueFactory(new PropertyValueFactory(column));
+        tableColumn.setCellFactory(stringCellFactory);
+        return tableColumn;
     }
 
     private MenuBar createMenus() {
