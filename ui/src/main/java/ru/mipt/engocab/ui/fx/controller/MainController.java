@@ -1,5 +1,7 @@
 package ru.mipt.engocab.ui.fx.controller;
 
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.geometry.Insets;
@@ -12,6 +14,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import ru.mipt.engocab.core.config.Settings;
 import ru.mipt.engocab.core.model.Dictionary;
 import ru.mipt.engocab.core.model.study.Cards;
 import ru.mipt.engocab.core.model.study.Index;
@@ -44,7 +47,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class MainController {
 
-    Stage primaryStage;
+    private Stage primaryStage;
 
     private FileChooser fileChooser = new FileChooser();
 
@@ -52,12 +55,15 @@ public class MainController {
 
     private File currentDictionaryFile;
 
+    private Settings settings;
+
 
     private final ScheduledExecutorService scheduler = new ScheduledThreadPoolExecutor(1);
 
-    public MainController(Model model, Stage primaryStage) {
+    public MainController(Model model, Stage primaryStage, Settings settings) {
         this.model = model;
         this.primaryStage = primaryStage;
+        this.settings = settings;
     }
 
     public void stopScheduler(Event event) {
@@ -98,6 +104,22 @@ public class MainController {
 
     }
 
+    public void loadDictionary() {
+        String path = settings.getDictionariesPath();
+        String currentDictionary = settings.getCurrentDictionary();
+        if (Strings.isNullOrEmpty(path) || Strings.isNullOrEmpty(currentDictionary)) {
+            return;
+        }
+        String currentDictionaryPath = path + File.separator + currentDictionary;
+        File dictionaryFile = new File(currentDictionaryPath + File.separator + currentDictionary + ".json");
+        File cardsFile = new File(currentDictionaryPath + File.separator + currentDictionary + "_cards.dat");
+        File indexFile = new File(currentDictionaryPath + File.separator + currentDictionary + "_index.dat");
+        if (dictionaryFile.exists() && cardsFile.exists() && indexFile.exists()) {
+            currentDictionaryFile = dictionaryFile;
+            loadDictionaryFiles(dictionaryFile, cardsFile, indexFile);
+        }
+    }
+
     public void showOpenWindow(Event event) {
         fileChooser.setTitle("Open dictionary...");
         currentDictionaryFile = fileChooser.showOpenDialog(primaryStage);
@@ -111,14 +133,20 @@ public class MainController {
             String directoryPath = directoryFile.getPath();
             File cardsFile = new File(directoryPath + File.separator + prefix + "_cards.dat");
             File indexFile = new File(directoryPath + File.separator + prefix + "_index.dat");
-            try {
-                Dictionary dictionary = DataMapper.deserializeFromStream(new FileInputStream(currentDictionaryFile), Dictionary.class);
-                Cards cards = DataMapper.deserializeFromStream(new FileInputStream(cardsFile), Cards.class);
-                Index index = DataMapper.deserializeFromStream(new FileInputStream(indexFile), Index.class);
-                model.updateModel(dictionary, cards, index);
-            } catch (FileNotFoundException e1) {
-                e1.printStackTrace();
-            }
+            loadDictionaryFiles(currentDictionaryFile, cardsFile, indexFile);
+        }
+    }
+
+    private void loadDictionaryFiles(File dictionaryFile, File cardsFile, File indexFile) {
+        Preconditions.checkArgument(dictionaryFile.exists() && cardsFile.exists() && indexFile.exists(),
+                "Dictionary Files should exist");
+        try {
+            Dictionary dictionary = DataMapper.deserializeFromStream(new FileInputStream(dictionaryFile), Dictionary.class);
+            Cards cards = DataMapper.deserializeFromStream(new FileInputStream(cardsFile), Cards.class);
+            Index index = DataMapper.deserializeFromStream(new FileInputStream(indexFile), Index.class);
+            model.updateModel(dictionary, cards, index);
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
         }
     }
 
