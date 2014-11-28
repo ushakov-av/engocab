@@ -23,7 +23,7 @@ public class DictionariesForm {
         stage.setTitle("Dictionaries");
     }
 
-    public void showView() {
+    public void show() {
         javafx.application.Platform.runLater(stage::show);
     }
 }

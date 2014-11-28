@@ -70,4 +70,14 @@ public class WordKey implements Comparable<WordKey> {
         }
         return Integer.compare(number, that.number);
     }
+
+    @Override
+    public String toString() {
+        return "WordKey{" +
+                "word='" + word + '\'' +
+                ", partOfSpeech=" + partOfSpeech +
+                ", number=" + number +
+                ", transcription='" + transcription + '\'' +
+                '}';
+    }
 }

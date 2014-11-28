@@ -17,7 +17,7 @@ public class ChooseActiveTagForm {
 
     private final Stage stage;
 
-    public ChooseActiveTagForm(final Model model, final Label currentTag) {
+    public ChooseActiveTagForm(final Model model) {
         this.stage = new Stage();
         final GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
@@ -43,7 +43,6 @@ public class ChooseActiveTagForm {
 
         button.setOnAction(actionEvent -> {
             model.setActiveTag(field.getText());
-            currentTag.setText(model.getActiveTag());
             stage.hide();
         });
 

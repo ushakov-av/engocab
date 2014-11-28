@@ -80,6 +80,10 @@ public class Dictionary {
      */
     public WordRecord getWordRecord(WordKey wordKey, String recordId) {
         WordContainer container = wordContainers.get(wordKey);
+        if (container == null) {
+            System.out.println(wordKey + " " + recordId);
+            return null;
+        }
         for (WordRecord record : container.getRecords()) {
             if (record.getId().equalsIgnoreCase(recordId)) {
                 return record;

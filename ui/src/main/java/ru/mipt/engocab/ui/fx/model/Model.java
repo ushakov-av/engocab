@@ -1,5 +1,7 @@
 package ru.mipt.engocab.ui.fx.model;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -33,7 +35,7 @@ public class Model {
     private Cards cards;
     private Index index;
 
-    private String activeTag;
+    private StringProperty activeTag = new SimpleStringProperty("");
 
     public Model() {
         dictionary = new Dictionary();
@@ -195,12 +197,16 @@ public class Model {
         return index;
     }
 
-    public void setActiveTag(String activeTag) {
-        this.activeTag = activeTag;
+    public String getActiveTag() {
+        return activeTag.get();
     }
 
-    public String getActiveTag() {
+    public StringProperty activeTagProperty() {
         return activeTag;
+    }
+
+    public void setActiveTag(String activeTag) {
+        this.activeTag.set(activeTag);
     }
 
     /**
@@ -217,6 +223,9 @@ public class Model {
             for (LearnCard card : learnCards) {
                 WordKey wordKey = index.getWord(card.getRecordId());
                 WordRecord record = dictionary.getWordRecord(wordKey, card.getRecordId());
+                if (record == null) {
+                    continue;
+                }
                 if (!checkLearnt(card, direct) && isSuitableWord(record, tag)) {
                     lesson.addEntry(new LessonEntry(card, index.getWord(card.getRecordId())));
                 }
@@ -232,6 +241,9 @@ public class Model {
                     LearnCard card = learnCards.get(arrInd);
                     WordKey wordKey = index.getWord(card.getRecordId());
                     WordRecord record = dictionary.getWordRecord(wordKey, card.getRecordId());
+                    if (record == null) {
+                        continue;
+                    }
                     if (!checkLearnt(card, direct) && isSuitableWord(record, tag)) {
                         LessonEntry entry = new LessonEntry(card, index.getWord(card.getRecordId()));
                         lesson.addEntry(entry);

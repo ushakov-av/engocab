@@ -20,7 +20,9 @@ public class OptionsForm {
 
     public OptionsForm() {
         this.stage = new Stage();
+    }
 
+    public void init() {
         TabPane tabPane = new TabPane();
         tabPane.setSide(Side.TOP);
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
@@ -43,7 +45,7 @@ public class OptionsForm {
         stage.setTitle("Options");
     }
 
-    public void showView() {
+    public void show() {
         javafx.application.Platform.runLater(stage::show);
     }
 
