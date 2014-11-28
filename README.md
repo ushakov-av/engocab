@@ -1,38 +1,39 @@
 
+## Overview
+
+Engocab helps to learn words of language you are studying.
+
+Each word can have several translations. For the translation you can add description, which shows difficulties of using a word. 
+Examples are added to the translation to show context of how the word is used.
 
 
-WordContainer is a container for (word, partOfSpeech, number). It contains a list of translations.
+## Model
+
+Main classes:
 
 
+* **WordKey** 
+> contains **word**, **part of speech**, **number**
+>
+> **number** allows to distinguish different words with the same spelling
 
-- word - word
+* **Dictionary** 
+> maps **WordKey**s to **WordContainer**s
+>
+> **WordContainer** allows to store several prioritized translations for a **WordKey**
 
-- partOfSpeech - part of speech
+* **WordRecord**
+> contains translation for the **WordKey**
+>
+> **WordContainer** stores **WordRecords**. 
+>
+> contains examples of how a **WordKey** with the give translation is used
+>
+> contains list of tags
 
-- number - number for different words having the same spelling
+* **Example**
+> **WordRecord** contains **Example**s of how a **WordKey** is used
 
-- transcription
+* **Synonym**
+> **WordRecord** contains **Synonym**s of a **WordKey**
 
-- records - list of translations
-
-
-
-
-# Issues
-
-+ 1. check that word exists before add it
-
-+ 2. add word record index
-
-3. edit form - load learn status properly
-
-4. problem with displaying word with the same spelling but different part of speech
-
-5. make config file in user directory
-    * list of dictionaries loaded
-    * the last dictionary opened
-
-+ 6. press ctrl when result is known in CheckForm thrown NullPointerException
-
-
-7. validate forms
