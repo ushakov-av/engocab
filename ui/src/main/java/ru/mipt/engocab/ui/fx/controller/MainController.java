@@ -19,15 +19,15 @@ import ru.mipt.engocab.core.model.Dictionary;
 import ru.mipt.engocab.core.model.study.Cards;
 import ru.mipt.engocab.core.model.study.Index;
 import ru.mipt.engocab.data.json.DataMapper;
-import ru.mipt.engocab.ui.fx.CheckForm;
-import ru.mipt.engocab.ui.fx.ChooseActiveTagForm;
-import ru.mipt.engocab.ui.fx.DictionariesForm;
-import ru.mipt.engocab.ui.fx.LearnForm;
-import ru.mipt.engocab.ui.fx.OptionsForm;
-import ru.mipt.engocab.ui.fx.StatisticsStage;
-import ru.mipt.engocab.ui.fx.StudyProgressStage;
-import ru.mipt.engocab.ui.fx.WordEditForm;
-import ru.mipt.engocab.ui.fx.WordEnterForm;
+import ru.mipt.engocab.ui.fx.view.CheckForm;
+import ru.mipt.engocab.ui.fx.view.ChooseActiveTagForm;
+import ru.mipt.engocab.ui.fx.view.DictionariesForm;
+import ru.mipt.engocab.ui.fx.view.LearnForm;
+import ru.mipt.engocab.ui.fx.view.OptionsForm;
+import ru.mipt.engocab.ui.fx.view.StatisticsStage;
+import ru.mipt.engocab.ui.fx.view.StudyProgressStage;
+import ru.mipt.engocab.ui.fx.view.wordform.WordEditForm;
+import ru.mipt.engocab.ui.fx.view.wordform.WordEnterForm;
 import ru.mipt.engocab.ui.fx.model.Lesson;
 import ru.mipt.engocab.ui.fx.model.Model;
 import ru.mipt.engocab.ui.fx.model.ModelWordRecord;
@@ -96,7 +96,6 @@ public class MainController {
         savePopup.setResizable(false);
         savePopup.setScene(scene);
 
-
         javafx.application.Platform.runLater(() -> {
             savePopup.show();
             scheduler.schedule(() -> javafx.application.Platform.runLater(savePopup::close), 2, TimeUnit.SECONDS);
@@ -116,6 +115,7 @@ public class MainController {
         File indexFile = new File(currentDictionaryPath + File.separator + currentDictionary + "_index.dat");
         if (dictionaryFile.exists() && cardsFile.exists() && indexFile.exists()) {
             currentDictionaryFile = dictionaryFile;
+            fileChooser.setInitialDirectory(currentDictionaryFile.getParentFile());
             loadDictionaryFiles(dictionaryFile, cardsFile, indexFile);
         }
     }

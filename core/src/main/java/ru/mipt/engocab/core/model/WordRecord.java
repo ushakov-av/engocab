@@ -110,6 +110,7 @@ public class WordRecord {
 
     public void addExample(Example example) {
         if (examples.isEmpty()) {
+            //todo:
             examples = new ArrayList<>();
         }
         examples.add(example);
@@ -125,6 +126,7 @@ public class WordRecord {
 
     public void addSynonym(Synonym synonym) {
         if (synonyms.isEmpty()) {
+            //todo:
             synonyms = new ArrayList<>();
         }
         synonyms.add(synonym);
@@ -140,6 +142,7 @@ public class WordRecord {
 
     public void addTag(String tag) {
         if (tags.isEmpty()) {
+            //todo:
             tags = new ArrayList<>();
         }
         tags.add(tag);

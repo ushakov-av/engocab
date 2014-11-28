@@ -1,4 +1,4 @@
-package ru.mipt.engocab.ui.fx;
+package ru.mipt.engocab.ui.fx.view.wordform;
 
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -16,6 +16,7 @@ import ru.mipt.engocab.core.model.study.LearnCard;
 import ru.mipt.engocab.core.model.study.Status;
 import ru.mipt.engocab.ui.fx.model.Model;
 import ru.mipt.engocab.ui.fx.model.ModelWordRecord;
+import ru.mipt.engocab.ui.fx.view.wordform.WordForm;
 
 import java.util.ArrayList;
 import java.util.List;

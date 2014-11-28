@@ -6,6 +6,7 @@ import ru.mipt.engocab.core.config.Configuration;
 import ru.mipt.engocab.core.config.Settings;
 import ru.mipt.engocab.ui.fx.controller.MainController;
 import ru.mipt.engocab.ui.fx.model.Model;
+import ru.mipt.engocab.ui.fx.view.MainStage;
 
 
 /**

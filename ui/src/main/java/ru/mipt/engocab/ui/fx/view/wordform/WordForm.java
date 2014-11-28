@@ -1,4 +1,4 @@
-package ru.mipt.engocab.ui.fx;
+package ru.mipt.engocab.ui.fx.view.wordform;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

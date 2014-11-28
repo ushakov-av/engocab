@@ -1,4 +1,4 @@
-package ru.mipt.engocab.ui.fx;
+package ru.mipt.engocab.ui.fx.view;
 
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;

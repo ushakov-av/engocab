@@ -1,4 +1,4 @@
-package ru.mipt.engocab.ui.fx;
+package ru.mipt.engocab.ui.fx.view;
 
 import ru.mipt.engocab.core.model.PartOfSpeech;
 

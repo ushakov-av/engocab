@@ -1,4 +1,4 @@
-package ru.mipt.engocab.ui.fx;
+package ru.mipt.engocab.ui.fx.view.wordform;
 
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -11,6 +11,7 @@ import ru.mipt.engocab.core.model.study.LearnCard;
 import ru.mipt.engocab.core.model.study.Status;
 import ru.mipt.engocab.ui.fx.model.Model;
 import ru.mipt.engocab.ui.fx.model.ModelWordRecord;
+import ru.mipt.engocab.ui.fx.view.wordform.WordForm;
 
 import java.util.List;
 
