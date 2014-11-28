@@ -1,8 +1,5 @@
 package ru.mipt.engocab.ui.fx;
 
-import javafx.application.Application;
-import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -19,16 +16,23 @@ import ru.mipt.engocab.ui.fx.controller.MainController;
 import ru.mipt.engocab.ui.fx.model.Model;
 import ru.mipt.engocab.ui.fx.model.ModelWordRecord;
 
-public class MainStage extends Application {
+/**
+ * Main view.
+ *
+ * @author Alexander Ushakov
+ */
+public class MainStage {
 
     private Model model;
 
     private MainController mainController;
 
-    private Stage stage;
+    private Stage primaryStage;
 
-    private void init(Stage primaryStage) {
-        stage = primaryStage;
+    public MainStage(Stage primaryStage, Model model, MainController mainController) {
+        this.primaryStage = primaryStage;
+        this.model = model;
+        this.mainController = mainController;
 
         BorderPane pane = new BorderPane();
 
@@ -39,10 +43,14 @@ public class MainStage extends Application {
 
         Scene scene = new Scene(pane, 800, 600);
 
-        stage.setScene(scene);
-        stage.setTitle("Engocab");
-        stage.show();
-        stage.setOnCloseRequest(mainController::stopScheduler);
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Engocab");
+        primaryStage.show();
+        primaryStage.setOnCloseRequest(mainController::stopScheduler);
+    }
+
+    public void show() {
+        primaryStage.show();
     }
 
     @SuppressWarnings("unchecked")
@@ -69,7 +77,7 @@ public class MainStage extends Application {
         Callback<TableColumn, TableCell> stringCellFactory =
                 p -> {
                     MainStringTableCell cell = new MainStringTableCell();
-                    cell.addEventFilter(MouseEvent.MOUSE_CLICKED, new MainTableEventHandler());
+                    cell.addEventFilter(MouseEvent.MOUSE_CLICKED, mainController::showWordEditForm);
                     return cell;
                 };
 
@@ -104,6 +112,7 @@ public class MainStage extends Application {
 
         MenuItem charts = new MenuItem("Charts");
         charts.setOnAction(mainController::showStudyProgress);
+
         dictionary.getItems().addAll(open, save, saveAs, statistics, charts);
 
         Menu settings = new Menu("Settings");
@@ -125,50 +134,39 @@ public class MainStage extends Application {
 
         ToolBar toolBar = new ToolBar();
 
-        Button newButton = new Button();
-        newButton.setId("newButton");
-        newButton.setGraphic(getRectangle());
-        newButton.setTooltip(new Tooltip("Create New Card... Ctrl+N"));
+        Button newButton = createToolbarButton("newButton", "Create New Card... Ctrl+N");
         newButton.setOnAction(mainController::showWordEnterForm);
 
-        Separator sep1 = new Separator(Orientation.VERTICAL);
-
-        Button learnButton = new Button();
-        learnButton.setId("learnButton");
-        learnButton.setGraphic(getRectangle());
-        learnButton.setTooltip(new Tooltip("Start learning... Ctrl+L"));
+        Button learnButton = createToolbarButton("learnButton", "Start learning... Ctrl+L");
         learnButton.setOnAction(mainController::showLearningStage);
 
-        Separator sep2 = new Separator(Orientation.VERTICAL);
-
-        Button tagButton = new Button();
-        tagButton.setId("setTag");
-        tagButton.setGraphic(getRectangle());
-        tagButton.setTooltip(new Tooltip("Set tag"));
+        Button tagButton = createToolbarButton("setTag", "Set tag");
         tagButton.setOnAction(mainController::showActiveTagForm);
 
-        Separator sep3 = new Separator(Orientation.VERTICAL);
-
-        Button directLesson = new Button();
-        directLesson.setId("directLesson");
-        directLesson.setGraphic(getRectangle());
-        directLesson.setTooltip(new Tooltip("Start Lesson en->ru"));
+        Button directLesson = createToolbarButton("directLesson", "Start Lesson en->ru");
         directLesson.setOnAction(mainController::showDirectLessonForm);
 
-        Button reverseLesson = new Button();
-        reverseLesson.setId("reverseLesson");
-        reverseLesson.setGraphic(getRectangle());
-        reverseLesson.setTooltip(new Tooltip("Start Lesson ru->en"));
+        Button reverseLesson = createToolbarButton("reverseLesson", "Start Lesson ru->en");
         reverseLesson.setOnAction(mainController::showReverseLessonForm);
-
-        Separator sep4 = new Separator(Orientation.VERTICAL);
 
         Label currentTag = new Label(model.getActiveTag());
 
-        toolBar.getItems().addAll(newButton, sep1, learnButton, sep2, tagButton, sep3,
-                directLesson, reverseLesson, sep4, currentTag);
+        toolBar.getItems().addAll(newButton, createSeparator(), learnButton, createSeparator(), tagButton,
+                createSeparator(), directLesson, reverseLesson, createSeparator(), currentTag);
 
         return toolBar;
+    }
+
+    private Button createToolbarButton(String id, String tooltip) {
+        Button button = new Button();
+        button.setId(id);
+        button.setGraphic(getRectangle());
+        button.setTooltip(new Tooltip(tooltip));
+        return button;
+    }
+
+    private Separator createSeparator() {
+        return new Separator(Orientation.VERTICAL);
     }
 
     private Rectangle getRectangle() {
@@ -177,36 +175,6 @@ public class MainStage extends Application {
         rect.setArcWidth(2);
         rect.setFill(Color.GREY);
         return rect;
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        model = new Model();
-        mainController = new MainController(model, primaryStage);
-        init(primaryStage);
-        primaryStage.show();
-    }
-
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-    private class MainTableEventHandler implements EventHandler<MouseEvent> {
-
-        @Override
-        public void handle(MouseEvent t) {
-            if (t.getClickCount() > 1) {
-                TableCell c = (TableCell) t.getSource();
-                int index = c.getIndex();
-                ObservableList<ModelWordRecord> data = model.getData();
-                if (data.size() > index) {
-                    WordEditForm form = new WordEditForm(model, index);
-                    form.setX(stage.getX());
-                    form.setY(stage.getY());
-                    form.showView();
-                }
-            }
-        }
     }
 
     private static class MainStringTableCell extends TableCell<ModelWordRecord, String> {

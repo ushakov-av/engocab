@@ -1,8 +1,11 @@
 package ru.mipt.engocab.ui.fx.controller;
 
+import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.TableCell;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -20,9 +23,11 @@ import ru.mipt.engocab.ui.fx.LearnForm;
 import ru.mipt.engocab.ui.fx.OptionsForm;
 import ru.mipt.engocab.ui.fx.StatisticsStage;
 import ru.mipt.engocab.ui.fx.StudyProgressStage;
+import ru.mipt.engocab.ui.fx.WordEditForm;
 import ru.mipt.engocab.ui.fx.WordEnterForm;
 import ru.mipt.engocab.ui.fx.model.Lesson;
 import ru.mipt.engocab.ui.fx.model.Model;
+import ru.mipt.engocab.ui.fx.model.ModelWordRecord;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -157,6 +162,20 @@ public class MainController {
         enterForm.setX(primaryStage.getX());
         enterForm.setY(primaryStage.getY());
         enterForm.showView();
+    }
+
+    public void showWordEditForm(MouseEvent t) {
+        if (t.getClickCount() > 1) {
+            TableCell c = (TableCell) t.getSource();
+            int index = c.getIndex();
+            ObservableList<ModelWordRecord> data = model.getData();
+            if (data.size() > index) {
+                WordEditForm form = new WordEditForm(model, index);
+                form.setX(primaryStage.getX());
+                form.setY(primaryStage.getY());
+                form.showView();
+            }
+        }
     }
 
     public void showLearningStage(Event event) {
