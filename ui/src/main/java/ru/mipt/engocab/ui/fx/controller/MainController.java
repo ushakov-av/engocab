@@ -19,6 +19,7 @@ import ru.mipt.engocab.core.model.Dictionary;
 import ru.mipt.engocab.core.model.study.Cards;
 import ru.mipt.engocab.core.model.study.Index;
 import ru.mipt.engocab.data.json.DataMapper;
+import ru.mipt.engocab.ui.fx.controller.wordform.WordEditController;
 import ru.mipt.engocab.ui.fx.controller.wordform.WordEnterController;
 import ru.mipt.engocab.ui.fx.view.CheckForm;
 import ru.mipt.engocab.ui.fx.view.ChooseActiveTagForm;
@@ -199,7 +200,7 @@ public class MainController {
             int index = c.getIndex();
             ObservableList<ModelWordRecord> data = model.getData();
             if (data.size() > index) {
-                WordEditForm form = new WordEditForm(model, index);
+                WordEditForm form = new WordEditForm(model, model.getData().get(index), new WordEditController(model));
                 form.setX(primaryStage.getX());
                 form.setY(primaryStage.getY());
                 form.showView();

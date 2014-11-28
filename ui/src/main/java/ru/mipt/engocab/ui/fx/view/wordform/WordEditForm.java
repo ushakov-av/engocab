@@ -9,6 +9,7 @@ import ru.mipt.engocab.core.model.WordKey;
 import ru.mipt.engocab.core.model.WordRecord;
 import ru.mipt.engocab.core.model.study.LearnCard;
 import ru.mipt.engocab.core.model.study.Status;
+import ru.mipt.engocab.ui.fx.controller.wordform.WordEditController;
 import ru.mipt.engocab.ui.fx.model.Model;
 import ru.mipt.engocab.ui.fx.model.ModelWordRecord;
 import ru.mipt.engocab.ui.fx.view.wordform.WordForm;
@@ -28,98 +29,22 @@ public class WordEditForm {
     private Stage stage;
     private WordForm form;
 
-    public WordEditForm(final Model model, int index) {
+    private WordEditController editController;
+
+    public WordEditForm(Model model, ModelWordRecord modelWordRecord, WordEditController editController) {
         this.model = model;
+        this.editController = editController;
         stage = new Stage();
         stage.setTitle("Edit Word Form");
 
         // render word form on stage
         this.form = new WordForm(stage);
 
-        final ModelWordRecord modelWordRecord = model.getData().get(index);
-
+        // Save all form records
         populateForm(modelWordRecord);
 
-        // Save all form records
         // If translation is empty the word record will be removed
-        form.saveButton.setOnAction(e -> {
-
-            // Create Word
-            String wordText = form.wordArea.getText();
-            String transcription = form.transcriptionField.getText();
-            PartOfSpeech pos = PartOfSpeech.toPartOfSpeech(form.posChoice.getValue());
-            int number = Integer.parseInt(form.numberChoice.getValue());
-            WordKey wordKey = new WordKey(wordText, pos, number, transcription);
-
-            // Save all form records
-            for (WordForm.RecordModel formRecord : form.records) {
-
-                // Is record is edited or created anew
-                boolean newWord = true;
-                WordRecord oldWordRecord = null;
-                ModelWordRecord oldModelWordRecord = formRecord.modelWordRecord;
-                if (oldModelWordRecord != null) {
-                    newWord = false;
-                    oldModelWordRecord = formRecord.modelWordRecord;
-                    oldWordRecord = oldModelWordRecord.getWordRecord();
-                }
-
-                String translationText = formRecord.translationArea.getText();
-                if (translationText.trim().isEmpty()) {
-                    continue;
-                }
-                String descriptionText = formRecord.descArea.getText();
-                String tip = formRecord.tipField.getText();
-                String learntPercentText = newWord ? "0 %" : oldModelWordRecord.getLearntPercent();
-                ModelWordRecord newModelWordRecord = new ModelWordRecord(wordText, translationText,
-                        descriptionText, learntPercentText);
-
-                newModelWordRecord.setNumber(number);
-
-                // copy the previous word record id, which is used for learning cards
-                WordRecord newWordRecord = new WordRecord(oldWordRecord);
-                newWordRecord.setWordKey(wordKey);
-                newWordRecord.setTranslation(translationText);
-                newWordRecord.setDescription(descriptionText);
-                newWordRecord.setIndex(Integer.parseInt(formRecord.index.getText()));
-                newWordRecord.setTip(tip);
-
-                // add examples to newWordRecord
-                if (!formRecord.examplesForms.isEmpty()) {
-                    for (WordForm.ExampleForm exampleForm : formRecord.examplesForms) {
-                        if (!(exampleForm.getWordText().isEmpty() && exampleForm.getTranslationText().isEmpty())) {
-                            Example example = new Example(exampleForm.getWordText(), exampleForm.getTranslationText(), exampleForm.getPhraseText());
-                            newWordRecord.addExample(example);
-                        }
-                    }
-                }
-
-                // add synonyms to newWordRecord
-
-                // add tags to newWordRecord
-                for (TextField tagField : formRecord.tags) {
-                    if (!tagField.getText().isEmpty()) {
-                        newWordRecord.addTag(tagField.getText());
-                    }
-                }
-
-                newModelWordRecord.addWordRecord(newWordRecord);
-
-                // Learnt status. Reset learn card
-                Status status = Status.get(formRecord.learnStatusChoice.getValue());
-                LearnCard card = new LearnCard(newWordRecord.getId(), status);
-                newModelWordRecord.setLearnCard(card);
-
-                if (newWord) {
-                    model.addNewWord(newModelWordRecord);
-                } else {
-                    model.updateWord(oldModelWordRecord, newModelWordRecord, status);
-                }
-            }
-
-            model.updateModel();
-            stage.close();
-        });
+        form.saveButton.setOnAction(editController::saveWord);
 
         // todo: show warning to detect erroneous close
         form.cancelButton.setOnAction(actionEvent -> stage.close());
