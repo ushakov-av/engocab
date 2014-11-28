@@ -1,4 +1,4 @@
-package ru.mipt.engocab.ui.fx.controller;
+package ru.mipt.engocab.ui.fx.controller.wordform;
 
 /**
  * @author Alexander Ushakov

@@ -19,6 +19,7 @@ import ru.mipt.engocab.core.model.Dictionary;
 import ru.mipt.engocab.core.model.study.Cards;
 import ru.mipt.engocab.core.model.study.Index;
 import ru.mipt.engocab.data.json.DataMapper;
+import ru.mipt.engocab.ui.fx.controller.wordform.WordEnterController;
 import ru.mipt.engocab.ui.fx.view.CheckForm;
 import ru.mipt.engocab.ui.fx.view.ChooseActiveTagForm;
 import ru.mipt.engocab.ui.fx.view.DictionariesForm;
@@ -186,7 +187,7 @@ public class MainController {
     }
 
     public void showWordEnterForm(Event event) {
-        WordEnterForm enterForm = new WordEnterForm(model);
+        WordEnterForm enterForm = new WordEnterForm(new WordEnterController(model));
         enterForm.setX(primaryStage.getX());
         enterForm.setY(primaryStage.getY());
         enterForm.showView();

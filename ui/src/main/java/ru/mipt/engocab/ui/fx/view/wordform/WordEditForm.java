@@ -32,6 +32,8 @@ public class WordEditForm {
         this.model = model;
         stage = new Stage();
         stage.setTitle("Edit Word Form");
+
+        // render word form on stage
         this.form = new WordForm(stage);
 
         final ModelWordRecord modelWordRecord = model.getData().get(index);
