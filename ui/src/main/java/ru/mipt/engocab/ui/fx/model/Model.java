@@ -1,5 +1,6 @@
 package ru.mipt.engocab.ui.fx.model;
 
+import com.google.common.base.Strings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -166,8 +167,9 @@ public class Model {
         if (learnCard.getStatus() != newStatus) {
             // set 100% if change active to learnt
             cards.changeStatus(learnCard, newStatus);
-        } else if (!(newWordRecord.getWordKey().getTranscription().equalsIgnoreCase(oldWordRecord.getWordKey().getTranscription())
-                && newWordRecord.getDescription().equalsIgnoreCase(oldModelWordRecord.getDescription()))
+        } else if (!(Strings.nullToEmpty(newWordRecord.getWordKey().getTranscription())
+                        .equalsIgnoreCase(oldWordRecord.getWordKey().getTranscription())
+                && Strings.nullToEmpty(newWordRecord.getDescription()).equalsIgnoreCase(oldModelWordRecord.getDescription()))
                 && newStatus == Status.ACTIVE) {
             // new translation or description, so learnt status is 0%
             learnCard.setL(0);
